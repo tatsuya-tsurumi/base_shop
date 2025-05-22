@@ -1,4 +1,6 @@
-{% extends 'users/base.html' %}
+{% extends 'base.html' %}
+{% block title %}ユーザー登録{% endblock %}
+
 {% block content %}
 <form method="POST">
   {% csrf_token %}

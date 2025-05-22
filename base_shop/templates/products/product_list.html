@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}商品一覧{% endblock %}
+
+{% block content %}
+  <h1>商品一覧</h1>
+  {% if products %}
+    {% for product in products %}
+      <div>
+        {% if product.image %}
+          <img src="{{product.image.url}}" alt="" width="200">
+        {% else %}
+          <p>画像なし</p>
+        {% endif %}
+        <p>{{product.name}}</p>
+        <p>メーカー: {{product.manufacturer}}</p>
+      </div>
+      {% endfor %}
+{% else %}
+    <p>商品はありません</p>
+{% endif %}
+{% endblock %}

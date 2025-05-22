@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-
+from django.shortcuts import redirect
 from django.conf.urls.static import static # 画像用
 from django.conf import settings # 画像用
 
 urlpatterns = [
+    path('admin/logout/', lambda request: redirect('/products/home/')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('products/', include('products.urls'))

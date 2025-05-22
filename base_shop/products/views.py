@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+from .models import Product
+
 
 class HomeView(TemplateView):
   template_name = 'products/home.html'
@@ -23,3 +24,8 @@ class AdminLoginView(View):
       })
   def get(self, request):
     return redirect('products:home')
+
+class ProductListView(ListView):
+  model = Product
+  template_name = 'products/product_list.html'
+  context_object_name = 'products'
