@@ -5,7 +5,8 @@ from django.views import View
 from django.views.generic import TemplateView
 
 class HomeView(TemplateView):
-  template_name = 'items/home.html'
+  template_name = 'products/home.html'
+  
 
 class AdminLoginView(View):
   def post(self, request):
@@ -17,8 +18,8 @@ class AdminLoginView(View):
       login(request, user)
       return redirect('/admin/')
     else:
-      return render(request, 'items/home.html', {
+      return render(request, 'products/home.html', {
         'error':"メールアドレスまたはパスワードが間違っています"
       })
   def get(self, request):
-    return redirect('items:home')
+    return redirect('products:home')

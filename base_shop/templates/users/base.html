@@ -14,7 +14,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" r
 {% else %}
 <a class="navbar-brand" href="{% url 'users:user_login' %}">ログイン</a>
 <a class="navbar-brand" href="{% url 'users:regist' %}">ユーザー登録</a>
-<a class="navbar-brand" href="{% url 'items:home' %}">管理者ログイン</a>
+<a class="navbar-brand" href="{% url 'products:home' %}">管理者ログイン</a>
 {% endif %}
 </nav>
 {% if messages %}
