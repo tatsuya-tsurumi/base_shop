@@ -3,6 +3,7 @@ from django.views.generic import(
 TemplateView, CreateView, FormView, View
 )
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RegistForm, UserLoginForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -18,7 +19,7 @@ class RegistUserView(CreateView):
 class UserLoginView(FormView):
   template_name = 'user_login.html'
   form_class = UserLoginForm
-  success_url = reverse_lazy('users:home')
+  success_url = reverse_lazy('users:user')
 
   def form_valid(self, form):
     email = form.cleaned_data['email']
@@ -38,3 +39,12 @@ class UserLogoutView(View):
   def post(self, request, *args, **kwargs):
     logout(request)
     return redirect('users:home')
+  
+class UserView(LoginRequiredMixin, TemplateView):
+  template_name = 'user.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['user'] = self.request.user
+    return context
+
