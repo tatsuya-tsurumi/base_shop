@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def view_cart(request):
   cart, created = Cart.objects.get_or_create(user=request.user)
-  return render(request, 'orders/cart.html', {'cart':cart})
+  return render(request, 'orders/cart_item.html', {'cart':cart})
 
 # カートに商品追加
 @login_required
@@ -34,15 +34,14 @@ def remove_from_cart(request, item_id):
 @login_required
 def order_confirm_view(request):
   cart = Cart.objects.filter(user=request.user).first()
-  address = request.user.address
+  ship_address = request.session.get('temporary_address', request.user.address)
 
   if request.method == 'POST':
-    address = request.POST.get('address')
     if not cart:
       return redirect('products:home')
     order = Order.objects.create(
       user=request.user,
-      address=address,
+      address=ship_address,
       total_price=cart.get_total_price()
     )
 
@@ -53,14 +52,28 @@ def order_confirm_view(request):
         quantity=item.quantity
       )
     cart.items.all().delete()
+    if 'temporary_address' in request.session:
+      del request.session['temporary_address']
     return redirect('orders:order_complete')
   
-  return render(request, 'orders/order_confirm.html', {
+  return render(request, 'orders/order.html', {
     'cart':cart,
     'cart_items':cart.items.all(),
-    'address':address,
+    'address':ship_address,
   })
   
 
 def order_complete_view(request):
-  return render(request, 'orders/order_complete.html')
+  return render(request, 'orders/complete.html')
+
+@login_required
+def change_address_view(request):
+  ship_address = request.user.address
+  if request.method == 'POST':
+    new_address = request.POST.get('ship_address')
+    if new_address:
+      request.session['temporary_address'] = new_address
+      return redirect('orders:confirm')
+  return render(request, 'orders/address.html', {
+    'address':ship_address
+  })
