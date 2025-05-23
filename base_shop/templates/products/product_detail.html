@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{product.name}}詳細{% endblock %}
+
+{% block content %}
+  <h2>{{product.name}}詳細</h2>
+  <p>メーカー: {{product.manufacturer}}</p>
+  <p>種別: {{product.category}}</p>
+  <p>カラー: {{product.color}}</p>
+  <p>ポジション: {{product.position}}</p>
+  <p>説明: {{product.description}}</p>
+  <p>price: {{product.manufacturer}}</p>
+  {% if product.image %}
+    <img src="{{product.image.url}}" alt="" width="300">
+  {% else %}
+    <p>画像なし</p>
+  {% endif %}
+
+  <p><a href="{% url 'products:product_list' %}">商品一覧に戻る</a></p>
+
+{% endblock %}

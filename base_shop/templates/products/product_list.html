@@ -2,7 +2,7 @@
 {% block title %}商品一覧{% endblock %}
 
 {% block content %}
-  <h1>商品一覧</h1>
+  <h2>商品一覧</h2>
   {% if products %}
     {% for product in products %}
       <div>
@@ -14,8 +14,9 @@
         <p>{{product.name}}</p>
         <p>メーカー: {{product.manufacturer}}</p>
       </div>
+      <a href="{% url 'products:product_detail' product.slug %}">{{product.name}}の詳細</a>
       {% endfor %}
-{% else %}
+  {% else %}
     <p>商品はありません</p>
-{% endif %}
+  {% endif %}
 {% endblock %}

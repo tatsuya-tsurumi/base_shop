@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from .models import Product
 
 
@@ -30,7 +30,8 @@ class ProductListView(ListView):
   template_name = 'products/product_list.html'
   context_object_name = 'products'
 
-class ProductDetailView(ListView):
+class ProductDetailView(DetailView):
   model = Product
-  template_name = 'products/product_list.html'
-  context_object_name = 'products'
+  template_name = 'products/product_detail.html'
+  context_object_name = 'product'
+
