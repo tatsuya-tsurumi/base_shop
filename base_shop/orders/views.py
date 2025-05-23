@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def view_cart(request):
   cart, created = Cart.objects.get_or_create(user=request.user)
-  return render(request, 'order/cart.html', {'cart':cart})
+  return render(request, 'orders/cart.html', {'cart':cart})
 
 # カートに商品追加
 @login_required
@@ -23,25 +23,44 @@ def add_to_cart(request, product_id):
 @login_required
 def remove_from_cart(request, item_id):
   item = get_object_or_404(CartItem, id=item_id)
-  item.delete()
-  return redirect('orders: view_cart')
+  if item.quantity > 1:
+    item.quantity -= 1
+    item.save()
+  else:
+    item.delete()
+  return redirect('orders:view_cart')
 
 # 購入処理。購入後カート内商品は削除
 @login_required
-def checkout(request):
-  cart = Cart.objects.get(user=request.user)
-  if not cart.items.exists():
-    return redirect('orders: view_cart')
-  
-  order = Order.objects.create(user=request.user)
+def order_confirm_view(request):
+  cart = Cart.objects.filter(user=request.user).first()
+  address = request.user.address
 
-  for item in cart.items.all():
-    OrderItem.objects.create(
-      order = order,
-      product = item.product,
-      quantity = item.quantity
+  if request.method == 'POST':
+    address = request.POST.get('address')
+    if not cart:
+      return redirect('products:home')
+    order = Order.objects.create(
+      user=request.user,
+      address=address,
+      total_price=cart.get_total_price()
     )
 
-    cart.products.all().delete()
+    for item in cart.items.all():
+      OrderItem.objects.create(
+        order=order,
+        product=item.product,
+        quantity=item.quantity
+      )
+    cart.items.all().delete()
+    return redirect('orders:order_complete')
+  
+  return render(request, 'orders/order_confirm.html', {
+    'cart':cart,
+    'cart_items':cart.items.all(),
+    'address':address,
+  })
+  
 
-    return render(request, 'orders/checkout_success.html', {'order':order})
+def order_complete_view(request):
+  return render(request, 'orders/order_complete.html')

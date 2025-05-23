@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}{{product.name}}注文確認{% endblock %}
+
+{% block content %}
+<h2>注文確認</h2>
+<ul>
+  {% for item  in cart_items %}
+  <li>
+    {{item.product.name}} ({{item.quantity}}個)
+  </li>
+  {% endfor %}
+</ul>
+
+<p>合計金額:{{cart.get_total_price}}円</p>
+
+<form method="POST">
+  {% csrf_token %}
+  <p><strong>お届け先住所:</strong>{{address}}</p>
+  <button type="submit">注文確定</button>
+</form>
+<button onclick="history.back()">戻る</button>
+
+{% endblock %}

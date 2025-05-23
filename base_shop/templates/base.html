@@ -18,6 +18,7 @@
       <a class="navbar-brand" href="{% url 'users:user_logout' %}">ログアウト</a>
       <a class="navbar-brand" href="{% url 'users:user' %}">マイページへ</a>
       <a class="navbar-brand" href="{% url 'products:product_list' %}">商品一覧へ</a>
+      <a class="navbar-brand" href="{% url 'orders:view_cart' %}">カートへ</a>
       {% else %}
       <a class="navbar-brand" href="{% url 'users:user_login' %}">ログイン</a>
       <a class="navbar-brand" href="{% url 'users:regist' %}">ユーザー登録</a>

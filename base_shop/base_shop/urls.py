@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/logout/', lambda request: redirect('/products/home/')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
-    path('products/', include('products.urls'))
+    path('products/', include('products.urls')),
+    path('orders/', include('orders.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # 画像用

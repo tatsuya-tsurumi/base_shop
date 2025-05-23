@@ -14,6 +14,10 @@
   {% else %}
     <p>画像なし</p>
   {% endif %}
+    <form action="{% url 'orders:add_to_cart' product.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">カートに追加</button>
+  </form>
 
   <p><a href="{% url 'products:product_list' %}">商品一覧に戻る</a></p>
 

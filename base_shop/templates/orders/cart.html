@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}カート内商品一覧{% endblock %}
+
+{% block content %}
+  <h2>{{user.username}}のカート</h2>
+  <ul>
+    {% for item in cart.items.all %}
+      <li>
+        {{item.product.name}} - {{item.quantity}}個
+        <a href="{% url 'orders:remove_from_cart' item.id %}">削除</a>
+      </li>
+    {% empty %}
+      <li>カート内商品はありません</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'orders:confirm' %}">注文する</a><br>
+  <button onclick="history.back()">戻る</button>
+{% endblock %}
