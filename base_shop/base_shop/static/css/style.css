@@ -1,0 +1,36 @@
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+main {
+  flex: 1;
+}
+
+footer{
+    text-align: center;
+}
+
+h1 {
+  font-family: "Pinyon Script", cursive;
+  margin-left: 8px;
+  color: #000;
+  margin-top: 8px;
+}
+
+
+.base_header {
+  display: flex;
+}
+
+.header_title_link {
+  text-decoration: none;
+}
