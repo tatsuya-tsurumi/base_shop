@@ -3,6 +3,9 @@
 {% block title %}ホーム {% endblock %}
 
 {% block content %}
+{% if user.is_authenticated %}
+  <h3 class="text-center mt-3">こんにちは {{user.username}} さん</h3>
+{% endif %}
 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
   <div class="carousel-inner">
     <div class="carousel-item active mt-3">
@@ -28,6 +31,8 @@
   </button>
 </div>
 
-<a class="nav-link" href="{% url 'products:product_list' %}">商品一覧へ</a>
+<div class="home_products_link text-center mt-4 w-25 mx-auto">
+  <a class=" btn btn-info mb-3 px-3" href="{% url 'products:product_list' %}">商品一覧へ</a>
+</div>
 
 {% endblock %}

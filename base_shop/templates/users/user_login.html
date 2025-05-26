@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}ログイン{% endblock %}
+
 {% block content %}
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="ログイン">
-</form>
+<div class="card mx-auto mt-5">
+  <img src="{% static 'images/4394.png' %}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title text-center">ログイン</h5>
+    <form method="POST" class="text-center w-100">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-info">ログイン</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
