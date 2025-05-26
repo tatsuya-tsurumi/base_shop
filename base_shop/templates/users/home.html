@@ -1,9 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}ホーム {% endblock %}
 
 {% block content %}
-<h2 class="">ホーム画面</h2>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'products:product_list' %}">商品一覧へ</a>
-              </li>
+<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+  <div class="carousel-inner">
+    <div class="carousel-item active mt-3">
+      <img src="{% static 'images/home_img.jpg' %}" class="d-block w-75 mx-auto home_img" alt="home画像">
+      <div class="w-75 mx-auto overlay"></div>
+    </div>
+    <div class="carousel-item mt-3">
+      <img src="{% static 'images/home_img2.jpg' %}" class="d-block w-75 mx-auto home_img" alt="home画像">
+      <div class="w-75 mx-auto overlay"></div>
+    </div>
+    <div class="carousel-item mt-3">
+      <img src="{% static 'images/home_img3.jpg' %}" class="d-block w-75 mx-auto home_img" alt="home画像">
+      <div class="w-75 mx-auto overlay"></div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<a class="nav-link" href="{% url 'products:product_list' %}">商品一覧へ</a>
+
 {% endblock %}
