@@ -28,30 +28,59 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:home' %}">ホーム</a>
+                <a class="nav-link" href="{% url 'users:home' %}">
+                  <div class="header_image_container">
+                    <img src="{% static 'images/home.png' %}" alt="home画像"  class="header_nav_img">
+                    <div class="caption">ホーム</div>
+                  </div>
+                </a>
               </li>
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'users:user' %}">マイページへ</a>
+                <a class="nav-link" href="{% url 'users:user' %}">
+                  <div class="header_image_container">
+                    <img src="{% static 'images/mypage.png' %}" alt="mypage画像"  class="header_nav_img">
+                    <div class="caption">マイページ</div>
+                  </div>
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'products:product_list' %}">商品一覧へ</a>
+                <a class="nav-link" href="{% url 'orders:view_cart' %}">
+                  <div class="header_image_container">
+                    <img src="{% static 'images/cart.png' %}" alt="cart画像"  class="header_nav_img">
+                    <div class="caption">カート</div>
+                  </div>
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'orders:view_cart' %}">カートへ</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:user_logout' %}">ログアウト</a>
+                <form method="POST" action="{% url 'users:user_logout' %}" class="nav-link">
+                  {% csrf_token %}
+                  <button type="submit" class="header_image_container" style="border: none; background: none;">
+                      <img src="{% static 'images/logout.png' %}" alt="logout画像"  class="header_nav_img">
+                      <div class="caption">ログアウト</div>
+                  </button>
+                  
+                </form>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:user_login' %}">ログイン</a>
+                <a class="nav-link" href="{% url 'users:user_login' %}">
+                  <div class="header_image_container">
+                    <img src="{% static 'images/login.png' %}" alt="login画像"  class="header_nav_img">
+                    <div class="caption">ログイン</div>
+                  </div>
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:regist' %}">ユーザー登録</a>
+                <a class="nav-link" href="{% url 'users:regist' %}">
+                  <div class="header_image_container">
+                    <img src="{% static 'images/regist.png' %}" alt="regist画像"  class="header_nav_img">
+                    <div class="caption">ユーザー登録</div>
+                  </div>
+                </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'products:home' %}">管理者ログイン</a>
+              <li class="nav-item administrator_item">
+                <a class="nav-link " href="{% url 'products:home' %}">管理者ログイン</a>
               </li>
               {% endif %}
             </ul>
@@ -71,7 +100,7 @@
       {% endblock %}
     </main>
     <footer class="bg-primary-subtle text-emphasis-primary">
-      2025title
+      <small>©︎2025 <span class="footer_title">base_shop</span></small>
     </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"

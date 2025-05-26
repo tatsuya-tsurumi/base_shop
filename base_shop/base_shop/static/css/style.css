@@ -8,7 +8,9 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 70px;
+  position: sticky;
+  top:0;
 }
 
 main {
@@ -16,7 +18,11 @@ main {
 }
 
 footer{
-    text-align: center;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Pinyon Script", cursive;
 }
 
 h1 {
@@ -33,4 +39,43 @@ h1 {
 
 .header_title_link {
   text-decoration: none;
+}
+
+.header_nav_img {
+  display: block;
+  height: 30px;
+  width: 35px;
+}
+
+.header_image_container {
+  position: relative;
+  display: inline-block;
+  height: 30px;
+  width: 35px;
+}
+
+.caption {
+  position: absolute;
+  bottom: -20px; 
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+.nav-item {
+  margin-left: 16px;
+}
+
+.administrator_item {
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition-duration: 1s;
+}
+.administrator_item:hover {
+  background: #91bbee;
+  border: 1px solid #91bbee;
+  transition-duration: 1s;
 }

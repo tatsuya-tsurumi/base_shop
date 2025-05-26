@@ -19,7 +19,7 @@ class RegistUserView(CreateView):
 class UserLoginView(FormView):
   template_name = 'users/user_login.html'
   form_class = UserLoginForm
-  success_url = reverse_lazy('users:user')
+  success_url = reverse_lazy('users:home')
 
   def form_valid(self, form):
     email = form.cleaned_data['email']
