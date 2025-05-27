@@ -40,14 +40,17 @@ h1 {
   width: 18rem;
 }
 
-.btn {
+.button {
   background: #caab4d;
   border: 1px solid #f4c742;
   color: #fefefe;
   transition: 0.7s;
+  border-radius: 10px;
+  padding: 6px 16px;
+  text-decoration: none;
 }
 
-.btn:hover {
+.button:hover {
   background: #f1d906e3;
   border: 1px solid #fddb00;
   color: #66A0DC;

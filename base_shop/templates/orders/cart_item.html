@@ -13,21 +13,21 @@
       <h5 class="mb-2">{{ item.product.name }}</h5>
       <p class="mb-2">￥{{ item.product.price }} × {{ item.quantity }}</p>
       <p class="mb-2">小計: ￥{{ item.subtotal }}</p>
-      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 btn">削除</a>
+      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 button">削除</a>
     </div>
   </div>
   {% endfor %}
   <div class="my-5 w-50 mx-auto d-flex align-items-end justify-content-between">
-    <a href="{{back_url}}" class="btn mb-0">戻る</a>
+    <a href="{{back_url}}" class="button mb-0">戻る</a>
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
-      <a href="{% url 'orders:confirm' %}" class="btn mt-2">購入手続きへ進む</a><br>
+      <a href="{% url 'orders:confirm' %}" class="button mt-2">購入手続きへ進む</a><br>
     </div>
   </div>
 
   {% else %}
   <p class="text-center">商品はありません</p>
-  <a href="{{back_url}}" class="btn mb-3">戻る</a>
+  <a href="{{back_url}}" class="button mb-3">戻る</a>
   {% endif %}
 </div>
 {% endblock %}

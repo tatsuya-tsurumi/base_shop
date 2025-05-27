@@ -14,13 +14,13 @@
       <h5 class="mb-2">{{ item.product.name }}</h5>
       <p class="mb-2">￥{{ item.product.price }} × {{ item.quantity }}</p>
       <p><strong>小計: ￥{{item.subtotal}}</strong></p>
-      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 btn">削除</a>
+      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 button">削除</a>
     </div>
   </div>
   {% endfor %}
 
   <div class="my-5 w-50 mx-auto d-flex align-items-end justify-content-between">
-    <a href="{% url 'orders:view_cart' %}" class="btn">カートに戻る</a>
+    <a href="{% url 'orders:view_cart' %}" class="button">カートに戻る</a>
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
       <p class="m-0">お届け先住所:{{address}}</p>
@@ -34,15 +34,36 @@
           <option value="electronic">電子マネー</option>
         </select>
       </div>
-      <form method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn mt-4">注文を確定する</button>
+      <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
+        {% csrf_token %}
+        <!-- Button trigger modal -->
+        <button type="button" class="button mt-4" data-bs-toggle="modal" data-bs-target="#confirmed_btn">
+          注文を確定する(Modal)
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="confirmed_btn" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                購入を確定します。よろしいですか?
+              </div>
+              <div class="modal-footer d-flex justify-conntent-end ">
+                <button type="button" class="btn btn-secondary me-4" data-bs-dismiss="modal">キャンセル</button>
+                <button type="button" class="button btn-primary ms-4 px-4" onclick="document.getElementById('purchaseForm').submit();">購入する</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   </div>
 
   <div class="text-center mt-3">
-    
+
   </div>
 
 
