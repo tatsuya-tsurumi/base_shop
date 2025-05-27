@@ -2,21 +2,26 @@
 {% block title %}商品一覧{% endblock %}
 
 {% block content %}
-  <h2>商品一覧</h2>
-  {% if products %}
+<h2 class="text-center mt-5">商品一覧</h2>
+{% if products %}
+<div class="container mt-5">
+  <div class="row">
     {% for product in products %}
-      <div>
-        {% if product.image %}
-          <img src="{{product.image.url}}" alt="" width="200">
-        {% else %}
-          <p>画像なし</p>
-        {% endif %}
-        <p>{{product.name}}</p>
-        <p>メーカー: {{product.manufacturer}}</p>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description|truncatechars:50 }}</p>
+          <p class="card-text text-muted">￥{{ product.price }}</p>
+          <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-primary">詳細を見る</a>
+        </div>
       </div>
-      <a href="{% url 'products:product_detail' product.slug %}">{{product.name}}の詳細</a>
-      {% endfor %}
-  {% else %}
-    <p>商品はありません</p>
-  {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<p>商品はありません</p>
+{% endif %}
 {% endblock %}

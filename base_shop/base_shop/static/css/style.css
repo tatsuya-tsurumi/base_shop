@@ -3,6 +3,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #ede5d1;
 }
 
 header {
@@ -35,12 +36,22 @@ h1 {
 }
 
 /* bootstrap */
-.card {
+.user_card {
   width: 18rem;
 }
 
-.card-body {
-  padding: 0;
+.btn {
+  background: #caab4d;
+  border: 1px solid #f4c742;
+  color: #fefefe;
+  transition: 0.7s;
+}
+
+.btn:hover {
+  background: #f1d906e3;
+  border: 1px solid #fddb00;
+  color: #66A0DC;
+  transition: 0.7s;
 }
 
 /* base.html */
