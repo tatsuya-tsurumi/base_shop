@@ -3,14 +3,14 @@
 {% block title %}ログイン{% endblock %}
 
 {% block content %}
-<div class="card mx-auto mt-5">
-  <img src="{% static 'images/4394.png' %}" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title text-center">ログイン</h5>
+<div class="card mx-auto mt-3">
+  <img src="{% static 'images/login_logo.png' %}" class="card-img-top" alt="...">
+  <h5 class="card-title text-center border py-2">ログイン</h5>
+  <div class="card-body login_form">
     <form method="POST" class="text-center w-100">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-info">ログイン</button>
+      <button type="submit" class="btn btn-info px-5">ログイン</button>
     </form>
   </div>
 </div>

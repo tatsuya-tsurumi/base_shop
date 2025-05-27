@@ -11,9 +11,9 @@ class RegistForm(forms.ModelForm):
     'password': forms.PasswordInput(),
     }
     labels = {
-    'username': '名前',
+    'username': 'お名前(フルーネーム)',
     'email': 'メールアドレス',
-    'address': '住所',
+    'address': '住所(配送先)',
     'password': 'パスワード',
     }
 
@@ -23,6 +23,10 @@ class RegistForm(forms.ModelForm):
     user.set_password(self.cleaned_data['password'])
     user.save()
     return user
+  
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.label_suffix = ''
 
 class UserLoginForm(forms.Form):
   email = forms.EmailField(label='メールアドレス', label_suffix='')

@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}ユーザー登録{% endblock %}
 
 {% block content %}
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="ユーザー登録">
-</form>
+<div class="card mx-auto my-3">
+  <img src="{% static 'images/regist_logo.png'%}" class="card-img-top" alt="..." height="270px">
+  <h5 class="card-title text-center border py-1">ユーザー登録</h5>
+  <div class="card-body regist-form">
+    <form method="POST" class="text-center w-100">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-info px-5">登録</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

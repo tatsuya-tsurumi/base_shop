@@ -1,3 +1,4 @@
+/* 共通 */
 body {
   height: 100vh;
   display: flex;
@@ -33,6 +34,16 @@ h1 {
   margin-top: 8px;
 }
 
+/* bootstrap */
+.card {
+  width: 18rem;
+}
+
+.card-body {
+  padding: 0;
+}
+
+/* base.html */
 .base_header {
   display: flex;
 }
@@ -80,6 +91,7 @@ h1 {
   transition-duration: 1s;
 }
 
+/* home.html */
 .home_img {
   height: 600px;
   object-fit: cover;
@@ -102,6 +114,12 @@ h1 {
   z-index: 1;
 }
 
-.card {
-  width: 18rem;
+/* user_login.html */
+.login_form {
+  padding: 8px 16px 16px;
+}
+
+/* regist.html */
+.regist-form {
+  padding: 4px 16px 8px;
 }
