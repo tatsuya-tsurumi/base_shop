@@ -2,24 +2,41 @@
 {% block title %}{{product.name}}注文確認{% endblock %}
 
 {% block content %}
-<h2>注文確認</h2>
-<ul>
-  {% for item  in cart_items %}
-  <li>
-    {{item.product.name}} ({{item.quantity}}個)
-  </li>
+<div class="container mt-5">
+
+  <h2 class="text-center">注文確認</h2>
+
+  {% for item in cart_items %}
+  <div class="list-group-item d-flex align-items-center justify-content-between w-50 mx-auto mt-4">
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3" height="300px"
+      width="200px">
+    <div class="d-flex flex-column align-items-end">
+      <h5 class="mb-2">{{ item.product.name }}</h5>
+      <p class="mb-2">￥{{ item.product.price }} × {{ item.quantity }}</p>
+      <p><strong>小計: ￥{{item.subtotal}}</strong></p>
+      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 btn">削除</a>
+    </div>
+  </div>
   {% endfor %}
-</ul>
 
-<p>合計金額:{{cart.get_total_price}}円</p>
+  <div class="my-5 w-50 mx-auto d-flex align-items-end justify-content-between">
+    <a href="{% url 'orders:view_cart' %}" class="btn">カートに戻る</a>
+    <div class="text-end ">
+      <h4>合計金額: ¥{{total_price}}</h4>
+      <p class="m-0">お届け先住所:{{address}}</p>
+      <a href="{% url 'orders:address' %}">配送先住所を変更する</a>
+      <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn mt-4">注文を確定する</button>
+      </form>
+    </div>
+  </div>
 
-<p>お届け先住所:{{address}}</p>
-<a href="{% url 'orders:address' %}">配送先住所を変更する</a>
-<form method="POST">
-  {% csrf_token %}
+  <div class="text-center mt-3">
+    
+  </div>
 
-  <button type="submit">注文確定</button>
-</form>
-<button onclick="history.back()">戻る</button>
 
+
+</div>
 {% endblock %}

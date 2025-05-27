@@ -17,14 +17,17 @@
     </div>
   </div>
   {% endfor %}
-  <div class="text-end mt-4">
-    <h4>合計金額: ¥{{total_price}}</h4>
-    <a href="{% url 'orders:confirm' %}" class="btn mt-2">注文する</a><br>
+  <div class="my-5 w-50 mx-auto d-flex align-items-end justify-content-between">
+    <a href="{{back_url}}" class="btn mb-0">戻る</a>
+    <div class="text-end ">
+      <h4>合計金額: ¥{{total_price}}</h4>
+      <a href="{% url 'orders:confirm' %}" class="btn mt-2">購入手続きへ進む</a><br>
+    </div>
   </div>
 
   {% else %}
   <p class="text-center">商品はありません</p>
+  <a href="{{back_url}}" class="btn mb-3">戻る</a>
   {% endif %}
-  <a href="{{back_url}}" class="btn">戻る</a>
 </div>
 {% endblock %}

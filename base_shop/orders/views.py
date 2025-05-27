@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 # カート表示
 @login_required
 def view_cart(request):
-  cart, created = Cart.objects.get_or_create(user=request.user)
+  cart, _ = Cart.objects.get_or_create(user=request.user)
   cart_items = cart.items.all()
   items_with_subtotals = []
   total_price = 0
@@ -54,7 +54,20 @@ def remove_from_cart(request, item_id):
 @login_required
 def order_confirm_view(request):
   cart = Cart.objects.filter(user=request.user).first()
+  cart_items = cart.items.all()
+  total_price = sum(item.product.price * item.quantity for item in cart_items)
   ship_address = request.session.get('temporary_address', request.user.address)
+  referer = request.META.get('HTTP_REFERER', '/')
+  items_with_subtotals = []
+
+  for item in cart_items:
+    subtotal = item.product.price * item.quantity
+    items_with_subtotals.append({
+      'id': item.id,
+      'product': item.product,
+      'quantity': item.quantity,
+      'subtotal':subtotal
+    })
 
   if request.method == 'POST':
     if not cart:
@@ -77,9 +90,10 @@ def order_confirm_view(request):
     return redirect('orders:order_complete')
   
   return render(request, 'orders/order.html', {
-    'cart':cart,
-    'cart_items':cart.items.all(),
+    'cart_items':items_with_subtotals,
+    'total_price':total_price,
     'address':ship_address,
+    'back_url': referer
   })
   
 
