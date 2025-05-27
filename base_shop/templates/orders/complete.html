@@ -2,7 +2,11 @@
 {% block title %}購入完了{% endblock %}
 
 {% block content %}
-  <h2>ご注文ありがとうございました。</h2>
-  <p>注文が正常に完了しました。</p>
-  <a href="{% url 'products:product_list' %}">商品一覧に戻る</a>
+<div class="container mt-5">
+  <h2 class="text-center">ご注文ありがとうございました。</h2>
+  <p class="text-center mt-3">注文が正常に完了しました。</p>
+  <div class="text-center mt-4">
+    <a href="{% url 'products:product_list' %}" class="btn ">商品一覧に戻る</a>
+  </div>
+</div>
 {% endblock %}

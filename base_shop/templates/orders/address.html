@@ -2,14 +2,19 @@
 {% block title %}{{product.name}}住所変更{% endblock %}
 
 {% block content %}
-<h2>配送先住所変更</h2>
-<form method="POST">
-  {% csrf_token %}
-  <label >新しい住所:</label>
-  <input type="text" name="ship_address" value="{{address}}">
-  <button type="submit">保存</button>
-</form>
-
-<button onclick="history.back()">戻る</button>
+<div class="container mt-5">
+  <h2 class="text-center">配送先住所変更</h2>
+  <form method="POST" class="mx-auto w-50 text-center mt-4">
+    {% csrf_token %}
+    <label class="fs-5 text">新しい住所</label><br>
+    <textarea name="ship_address" rows="2" class="mt-2 w-75">{{address}}</textarea><br>
+    <button type="submit" class="btn mt-4 px-3 w-25">確定</button>
+    <p class="mt-3 text-danger">今回のみ住所が変更されます</p>
+  </form>
+  
+  <div class="text-center mt-4">
+    <a href="{% url 'orders:confirm' %}" class="btn">購入画面へ戻る</a>
+  </div>
+</div>
 
 {% endblock %}

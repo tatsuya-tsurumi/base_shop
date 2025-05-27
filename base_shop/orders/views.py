@@ -103,11 +103,13 @@ def order_complete_view(request):
 @login_required
 def change_address_view(request):
   ship_address = request.user.address
+  referer = request.META.get('HTTP_REFERER', '/')
   if request.method == 'POST':
     new_address = request.POST.get('ship_address')
     if new_address:
       request.session['temporary_address'] = new_address
       return redirect('orders:confirm')
   return render(request, 'orders/address.html', {
-    'address':ship_address
+    'address':ship_address,
+    'back_url': referer,
   })
