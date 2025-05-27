@@ -134,3 +134,23 @@ h1 {
 .regist-form {
   padding: 4px 16px 8px;
 }
+
+/* product/product_detail.html */
+.product_detail_img {
+  height: 600px;
+}
+
+.product_detail_table, tr, tbody, th, td {
+  border: 2px solid #ccc;
+}
+
+.product_detail_table th {
+  width: 20%;
+  white-space: nowrap;
+  padding-left: 8px;
+}
+
+.product_detail_table td {
+  width: 80%;
+  padding-left: 8px;
+}

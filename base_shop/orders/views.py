@@ -7,7 +7,27 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def view_cart(request):
   cart, created = Cart.objects.get_or_create(user=request.user)
-  return render(request, 'orders/cart_item.html', {'cart':cart})
+  cart_items = cart.items.all()
+  items_with_subtotals = []
+  total_price = 0
+
+  for item in cart_items:
+        subtotal = item.product.price * item.quantity
+        total_price += subtotal
+        items_with_subtotals.append({
+            'id': item.id,
+            'product': item.product,
+            'quantity': item.quantity,
+            'subtotal': subtotal
+        })
+    
+  referer = request.META.get('HTTP_REFERER', '/')
+
+  return render(request, 'orders/cart_item.html', {
+    'cart_items': items_with_subtotals,
+    'total_price': total_price,
+    'back_url': referer
+    })
 
 # カートに商品追加
 @login_required

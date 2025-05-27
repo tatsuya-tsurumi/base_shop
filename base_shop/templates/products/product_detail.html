@@ -2,23 +2,59 @@
 {% block title %}{{product.name}}詳細{% endblock %}
 
 {% block content %}
-  <h2>{{product.name}}詳細</h2>
-  <p>メーカー: {{product.manufacturer}}</p>
-  <p>種別: {{product.category}}</p>
-  <p>カラー: {{product.color}}</p>
-  <p>ポジション: {{product.position}}</p>
-  <p>説明: {{product.description}}</p>
-  <p>price: {{product.manufacturer}}</p>
-  {% if product.image %}
-    <img src="{{product.image.url}}" alt="" width="300">
-  {% else %}
-    <p>画像なし</p>
-  {% endif %}
-    <form action="{% url 'orders:add_to_cart' product.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">カートに追加</button>
-  </form>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">{{ product.name }}の詳細</h2>
 
-  <p><a href="{% url 'products:product_list' %}">商品一覧に戻る</a></p>
+  <!-- 商品画像 -->
+  <div class="text-center mb-4">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid product_detail_img">
+  </div>
+
+  <!-- 商品詳細テーブル -->
+  <div class="mb-4">
+    <table class="w-50 mx-auto product_detail_table">
+      <tbody>
+        <tr>
+          <th scope="row">商品名</th>
+          <td>{{ product.name }}</td>
+        </tr>
+        <tr>
+        <tr>
+          <th>メーカー</th>
+          <td>{{ product.manufacturer}}</td>
+        </tr>
+        <tr>
+          <th>種別</th>
+          <td>{{ product.category}}</td>
+        </tr>
+        <tr>
+          <th>カラー</th>
+          <td>{{ product.position}}</td>
+        </tr>
+        <tr>
+          <th>ポジション</th>
+          <td>{{ product.position}}</td>
+        </tr>
+        <th scope="row">価格</th>
+        <td>￥{{ product.price }}</td>
+        </tr>
+        <tr>
+          <th scope="row">説明</th>
+          <td>{{ product.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- カート追加ボタン -->
+  <div class="text-center w-50 d-flex justify-content-around mx-auto mb-5">
+    <form method="POST" action="{% url 'orders:add_to_cart' product.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn">カートに追加</button>
+    </form>
+    <p><a href="{% url 'products:product_list' %}" class="btn">商品一覧に戻る</a></p>
+  </div>
+  カートに追加ボタンと購入手続きへボタンを作る
+</div>
 
 {% endblock %}

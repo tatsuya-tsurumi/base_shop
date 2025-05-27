@@ -1,18 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}カート内商品一覧{% endblock %}
 
 {% block content %}
-  <h2>{{user.username}}のカート</h2>
-  <ul>
-    {% for item in cart.items.all %}
-      <li>
-        {{item.product.name}} - {{item.quantity}}個
-        <a href="{% url 'orders:remove_from_cart' item.id %}">削除</a>
-      </li>
-    {% empty %}
-      <li>カート内商品はありません</li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'orders:confirm' %}">注文する</a><br>
-  <button onclick="history.back()">戻る</button>
+<div class="container mt-5">
+  <h2 class="text-center">カート内商品</h2>
+  {% if cart_items %}
+  {% for item in cart_items %}
+  <div class="list-group-item d-flex align-items-center justify-content-between w-50 mx-auto">
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3" height="300px" width="200px">
+    <div class="d-flex flex-column align-items-end">
+      <h5 class="mb-2">{{ item.product.name }}</h5>
+      <p class="mb-2">￥{{ item.product.price }} × {{ item.quantity }}</p>
+      <p class="mb-2">小計: ￥{{ item.subtotal }}</p>
+      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 btn">削除</a>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="text-end mt-4">
+    <h4>合計金額: ¥{{total_price}}</h4>
+    <a href="{% url 'orders:confirm' %}" class="btn mt-2">注文する</a><br>
+  </div>
+
+  {% else %}
+  <p class="text-center">商品はありません</p>
+  {% endif %}
+  <a href="{{back_url}}" class="btn">戻る</a>
+</div>
 {% endblock %}
