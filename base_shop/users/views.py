@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views.generic import(
-TemplateView, CreateView, FormView, View
+TemplateView, CreateView, FormView, View,UpdateView
 )
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RegistForm, UserLoginForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 from orders.models import Order
+
+User = get_user_model()
 
 class HomeView(TemplateView):
   template_name = 'users/home.html'
@@ -56,3 +58,12 @@ class UserView(LoginRequiredMixin, TemplateView):
         order.items_with_total.append(item)
     context['orders'] = orders
     return context
+
+class EditUserView(LoginRequiredMixin, UpdateView):
+  model = User
+  template_name = 'users/edit.html'
+  fields = ['username', 'email', 'address']
+  success_url = reverse_lazy('users:user')
+
+  def get_object(self):
+    return self.request.user

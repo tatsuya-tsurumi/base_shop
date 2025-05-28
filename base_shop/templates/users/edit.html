@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}ユーザー編集{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center">ユーザー情報編集</h2>
+  <div class="w-50 mx-auto mt-4 text-center">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username">ユーザー名</label><br>
+        {{ form.username}}
+      </div>
+      <div class="mb-3">
+        <label for="email">メールアドレス</label><br>
+        {{ form.email}}
+      </div>
+      <div class="mb-3">
+        <label for="address">住所</label><br>
+        {{ form.address}}
+      </div>
+      <div class="text-center mt-3">
+        <button type="submit" class="button">保存</button>
+        <a href="{% url 'users:user' %}" class="btn btn-secondary ms-2">キャンセル</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

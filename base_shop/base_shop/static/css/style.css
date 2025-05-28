@@ -181,3 +181,7 @@ h1 {
 .user_table_pass {
   font-size: 8px;
 }
+
+.user_edit_btn {
+  padding: 8px 32px;
+}

@@ -30,9 +30,9 @@ class UserManager(BaseUserManager):
     return user
 
 class User(AbstractBaseUser, PermissionsMixin):
-  username = models.CharField(max_length=150)
-  email = models.EmailField(max_length=255, unique=True)
-  address = models.CharField(max_length=255, blank=True, null=True)
+  username = models.CharField('名前' ,max_length=150)
+  email = models.EmailField('メールアドレス' ,max_length=255, unique=True)
+  address = models.CharField('住所' ,max_length=255, blank=True, null=True)
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
   is_superuser = models.BooleanField(default=False)
