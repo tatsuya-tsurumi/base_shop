@@ -57,6 +57,17 @@ h1 {
   transition: 0.7s;
 }
 
+.carousel-control-next {
+  right: 12%;
+}
+
+.carousel-control-prev {
+  left: 12%;
+}
+.carousel-control-next, .carousel-control-prev {
+  width: 5%;
+}
+
 /* base.html */
 .base_header {
   display: flex;
