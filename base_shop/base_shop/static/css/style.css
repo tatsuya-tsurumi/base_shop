@@ -154,6 +154,7 @@ h1 {
 /* product/product_detail.html */
 .product_detail_img {
   height: 600px;
+  width: 600px;
 }
 
 .product_detail_table, tr, tbody, th, td {
@@ -176,9 +177,14 @@ h1 {
   height: 96px;
 }
 
-.cart_btn {
+.cart_btn,
+.user_edit_btn,
+.home_btn {
   padding: 8px 32px;
-  width: 130px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
 }
 
 /* orders/order.html */
@@ -196,6 +202,9 @@ h1 {
 
 .user_edit_btn {
   padding: 8px 32px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn_back {
@@ -208,4 +217,10 @@ h1 {
   background-color: #6c757d;
   border: 1px solid #6c757d;
   color: #fff;
+}
+
+.thumb_img_size {
+  height:160px;
+  width:150px;
+
 }

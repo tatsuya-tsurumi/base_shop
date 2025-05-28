@@ -8,8 +8,7 @@
 
   {% for item in cart_items %}
   <div class="list-group-item d-flex align-items-center justify-content-between w-50 mx-auto mt-4">
-    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3" height="300px"
-      width="200px">
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3 thumb_img_size">
     <div class="d-flex flex-column align-items-end">
       <h5 class="mb-2">{{ item.product.name }}</h5>
       <p class="mb-2">￥{{ item.product.price }} × {{ item.quantity }}</p>
@@ -38,7 +37,7 @@
         {% csrf_token %}
         <!-- Button trigger modal -->
         <button type="button" class="button mt-4" data-bs-toggle="modal" data-bs-target="#confirmed_btn">
-          注文を確定する(Modal)
+          注文を確定する
         </button>
 
         <!-- Modal -->
