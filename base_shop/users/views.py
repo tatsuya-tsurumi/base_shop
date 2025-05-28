@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RegistForm, UserLoginForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from orders.models import Order
 
 class HomeView(TemplateView):
   template_name = 'users/home.html'
@@ -40,11 +41,18 @@ class UserLogoutView(View):
     logout(request)
     return redirect('users:home')
   
+
 class UserView(LoginRequiredMixin, TemplateView):
   template_name = 'users/user.html'
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    context['user'] = self.request.user
-    return context
+    orders = Order.objects.filter(user=self.request.user).order_by('-created_at')
 
+    for order in orders:  
+      order.items_with_total = []
+      for item in order.items.all():
+        item.total_price = item.product.price * item.quantity
+        order.items_with_total.append(item)
+    context['orders'] = orders
+    return context

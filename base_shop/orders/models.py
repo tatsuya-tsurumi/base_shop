@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
 from products.models import Product
 from users.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your models here.
 class Cart(models.Model):

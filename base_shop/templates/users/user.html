@@ -1,8 +1,62 @@
 {% extends 'base.html' %}
 {% block title %}マイページ{% endblock %}
+{% load static %}
 
 {% block content %}
-<h2>マイページ</h2>
+<div class="container mt-5">
+  <h2 class="text-center">マイページ</h2>
 
-<p><strong>名前：</strong> {{ user.username }}</p>
+  <h4 class="w-50 mx-auto mt-5">ユーザー情報</h4>
+  <table class="table table-bordered w-50 mx-auto">
+    <tbody>
+      <tr>
+        <th class="w-25 py-3 ps-2">ユーザー名</th>
+        <td class="py-3 ps-2">{{ user.username }}</td>
+      </tr>
+      <tr>
+        <th class="py-3 ps-2">メールアドレス</th>
+        <td class="py-3 ps-2">{{ user.email }}</td>
+      </tr>
+      <tr>
+        <th class="py-3 ps-2">住所</th>
+        <td class="py-3 ps-2">{{ user.address }}</td>
+      </tr>
+      <tr>
+        <th class="py-3 ps-2">パスワード</th>
+        <td class="py-3 ps-2 user_table_pass">⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 class="w-50 mx-auto mt-5">購入履歴</h4>
+
+{% if orders %}
+  {% for order in orders %}
+    <div class="card mb-3 w-50 mx-auto {% if forloop.counter > 3 %}d-none extra-order{% endif %}">
+      <div class="card-header">
+        購入日: {{ order.created_at|date:"Y年m月d日" }}
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for item in order.items_with_total %}
+          <li class="list-group-item">
+            <strong>{{ item.product.name }}</strong> x {{ item.quantity }}
+            <span class="float-end">¥{{ item.total_price|floatformat:0 }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+
+  {% if orders|length > 3 %}
+    <div class="text-center mt-3 mb-4">
+      <button id="toggle-orders-btn" class="btn btn-link">もっと見る</button>
+    </div>
+  {% endif %}
+
+{% else %}
+  <p class="text-center">購入履歴はありません。</p>
+{% endif %}
+
+
+</div>
 {% endblock %}
