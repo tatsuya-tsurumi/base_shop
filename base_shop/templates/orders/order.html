@@ -20,7 +20,7 @@
   {% endfor %}
 
   <div class="my-5 w-50 mx-auto d-flex align-items-end justify-content-between">
-    <a href="{% url 'orders:view_cart' %}" class="button">カートに戻る</a>
+    <a href="{% url 'orders:view_cart' %}" class="button btn_back">カートに戻る</a>
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
       <p class="m-0">お届け先住所:{{address}}</p>
