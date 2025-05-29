@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cart, CartItem, Order, OrderItem
 from products.models import Product
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # カート表示
 @login_required
@@ -33,10 +35,14 @@ def view_cart(request):
 @login_required
 def add_to_cart(request, product_id):
   product = get_object_or_404(Product, id=product_id)
-  cart, created = Cart.objects.get_or_create(user=request.user)
+  cart, _ = Cart.objects.get_or_create(user=request.user)
   item, created = CartItem.objects.get_or_create(cart=cart, product=product)
   item.quantity += 1
   item.save()
+
+  if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    return JsonResponse({'name': product.name, 'quantity': item.quantity})
+
   return redirect('orders:view_cart')
 
 # カートから商品削除
@@ -113,3 +119,13 @@ def change_address_view(request):
     'address':ship_address,
     'back_url': referer,
   })
+
+@login_required
+def buy_now(request, product_id):
+  product = get_object_or_404(Product, id=product_id)
+  cart, _ = Cart.objects.get_or_create(user=request.user)
+  item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+  item.quantity += 1
+  item.save()
+
+  return redirect('orders:confirm')
