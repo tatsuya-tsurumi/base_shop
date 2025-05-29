@@ -30,6 +30,7 @@ class UserLoginView(FormView):
     user = authenticate(email=email, password=password)
     if user:
       login(self.request, user)
+      messages.success(self.request, f'おかえりなさい、{user.username}さん')
       return super().form_valid(form)
     else:
       messages.error(self.request, 'メールアドレスまたはパスワードが間違っています')

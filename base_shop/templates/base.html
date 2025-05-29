@@ -89,11 +89,12 @@
       </div>
     </header>
     {% if messages %}
-    <ul class="messages text-danger">
-      {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
+    {% for message in messages %}
+      <div class="alert alert-info alert-dismissible fade show mt-4 w-25 fade-in " role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
     {% endif %}
     <main>
       {% block content %}
