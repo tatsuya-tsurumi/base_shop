@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Cart, CartItem, Order, OrderItem
-from products.models import Product
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from .models import Cart, CartItem, Order, OrderItem
+from products.models import Product
+from users.models import Address
 
 # カート表示
 @login_required
@@ -62,7 +64,6 @@ def order_confirm_view(request):
   cart = Cart.objects.filter(user=request.user).first()
   cart_items = cart.items.all()
   total_price = sum(item.product.price * item.quantity for item in cart_items)
-  ship_address = request.session.get('temporary_address', request.user.address)
   referer = request.META.get('HTTP_REFERER', '/')
   items_with_subtotals = []
 
@@ -75,12 +76,25 @@ def order_confirm_view(request):
       'subtotal':subtotal
     })
 
+  if 'temporary_address' in request.session:
+    ship_address = request.session['temporary_address']
+  else:
+    address = get_object_or_404(Address, user=request.user)
+    ship_address = {
+      'postal_code': address.postal_code,
+      'country': address.country,
+      'prefecture': address.prefecture,
+      'city': address.city,
+      'street': address.street
+    }
   if request.method == 'POST':
-    if not cart:
-      return redirect('products:home')
+    prefecture = request.POST.get('prefecture', "")
+    city = request.POST.get('city', "")
+    street = request.POST.get('street', "")
+    address_str = f"{prefecture}{city}{street}"
     order = Order.objects.create(
       user=request.user,
-      address=ship_address,
+      address=address_str,
       total_price=cart.get_total_price()
     )
 
@@ -108,15 +122,29 @@ def order_complete_view(request):
 
 @login_required
 def change_address_view(request):
-  ship_address = request.user.address
+  address, _ = Address.objects.get_or_create(user=request.user)
   referer = request.META.get('HTTP_REFERER', '/')
   if request.method == 'POST':
-    new_address = request.POST.get('ship_address')
-    if new_address:
-      request.session['temporary_address'] = new_address
+    postal_code = request.POST.get('postal_code', "")
+    country = request.POST.get('country', "")
+    prefecture = request.POST.get('prefecture', "")
+    city = request.POST.get('city', "")
+    street = request.POST.get('street', "")
+
+    if postal_code and country and prefecture and city and street:
+      request.session['temporary_address'] = {
+        'postal_code': postal_code,
+        'country': country,
+        'prefecture': prefecture,
+        'city': city,
+        'street': street,
+      }
+      messages.success(request, 'お届け先住所を変更しました')
       return redirect('orders:confirm')
+    else:
+      messages.error(request, '全ての項目を入力してください')
   return render(request, 'orders/address.html', {
-    'address':ship_address,
+    'address':address,
     'back_url': referer,
   })
 

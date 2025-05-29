@@ -7,7 +7,6 @@
 <div class="py-5 text-center">
       <h2>新規登録</h2>
 </div>
-
 <div class="container w-50 mx-auto">
   <form class="needs-validation" novalidate="" method="POST">
     {% csrf_token %}
@@ -21,7 +20,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 w-100">
         <label for="email" class="form-label">メールアドレス</label>
         <input type="email" class="form-control" name="email" placeholder="test@example.com">
@@ -29,7 +27,6 @@
           メールアドレスは必須です
         </div>
       </div>
-
       <div class="col-12 w-100">
         <label for="email" class="form-label">パスワード</label>
         <input type="password" class="form-control" name="password" placeholder="">
@@ -37,7 +34,6 @@
           パスワードは必須です
         </div>
       </div>
-
       <div class="col-12 w-50">
         <label for="zip" class="form-label">郵便番号</label>
         <input type="text" class="form-control" name="postal_code" placeholder="123-4567" required="">
@@ -45,7 +41,6 @@
           郵便番号は必須です
         </div>
       </div>
-
       <div class="col-12 w-50">
         <label for="country" class="form-label">国名</label>
         <select class="form-select" name="country" required="">
@@ -56,7 +51,6 @@
           国名は必須です
         </div>
       </div>
-
       <div class="col-12 w-50">
         <label for="state" class="form-label">都道府県</label>
         <select class="form-select" name="prefecture" required="">
@@ -67,10 +61,7 @@
           都道府県は必須です
         </div>
       </div>
-
-
     </div>
-
     <div class="col-12 w-75 mt-3">
       <label for="address" class="form-label">市区町村</label>
       <input type="text" class="form-control" name="city" placeholder="港区" required="">
@@ -78,12 +69,10 @@
         市区町村は必須です
       </div>
     </div>
-
     <div class="col-12 mt-3">
       <label for="address2" class="form-label">丁目以下</label>
       <input type="text" class="form-control" name="street" placeholder="麻布十番1-2-3">
     </div>
-
     <hr class="my-4">
     <div class="col12 w-100 text-center mb-4">
       <button class="btn btn-primary w-25" type="submit">登録</button>

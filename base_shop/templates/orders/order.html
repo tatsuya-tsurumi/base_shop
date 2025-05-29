@@ -22,7 +22,7 @@
     <a href="{% url 'orders:view_cart' %}" class="button btn_back">カートに戻る</a>
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
-      <p class="m-0">お届け先住所:{{address}}</p>
+      <p class="m-0">お届け先住所:{{address.prefecture}}{{address.city}}{{address.street}}</p>
       <a href="{% url 'orders:address' %}">配送先住所を変更する</a><br>
       <div class="d-flex align-items-center gap-3 mt-3">
         <label for="pay" class="mb-0 w-auto">お支払い方法:</label>
@@ -35,6 +35,9 @@
       </div>
       <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
         {% csrf_token %}
+        <input type="hidden" name="prefecture" value="{{ address.prefecture }}">
+        <input type="hidden" name="city" value="{{ address.city }}">
+        <input type="hidden" name="street" value="{{ address.street }}">
         <!-- Button trigger modal -->
         <button type="button" class="button mt-4" data-bs-toggle="modal" data-bs-target="#confirmed_btn">
           注文を確定する
