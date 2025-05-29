@@ -4,20 +4,68 @@ TemplateView, CreateView, FormView, View,UpdateView
 )
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import RegistForm, UserLoginForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.views import View
 from orders.models import Order
+from .models import Address
+from .forms import RegistForm, UserLoginForm
 
 User = get_user_model()
 
 class HomeView(TemplateView):
   template_name = 'users/home.html'
 
-class RegistUserView(CreateView):
-  template_name = 'users/regist.html'
-  form_class = RegistForm
-  success_url = reverse_lazy('users:home')
+class RegistUserView(View):
+  def get(self, request, *args, **kwargs):
+    return render(request, 'users/regist.html')
+  
+  def post(self, request, *args, **kwargs):
+    # ユーザー情報の取得
+    username = request.POST.get('username')
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+
+    # 住所情報の取得
+    postal_code = request.POST.get('postal_code') or ""
+    country = request.POST.get('country') or ""
+    prefecture = request.POST.get('prefecture') or ""
+    city = request.POST.get('city') or ""
+    street = request.POST.get('street') or ""
+
+    # 名前・メールアドレス・パスワードどれかがなかった場合の処理
+    if not username or not email or not password:
+      messages.error(request, "名前・メールアドレス・パスワード全て必須です")
+      return render(request, 'users/regist.html')
+    
+    # メールアドレスが重複したいた場合の処理
+    if User.objects.filter(email=email).exists():
+      messages.error(request, "このメールアドレスは既に登録されています")
+      return render(request, 'users/regist.html')
+    
+    #ユーザー情報の登録処理
+    user = User.objects.create(
+      username=username,
+      email=email
+    )
+    user.set_password(password)
+    user.save()
+
+    #住所情報の登録処理
+    Address.objects.create(
+      user=user,
+      postal_code=postal_code,
+      country=country,
+      prefecture=prefecture,
+      city=city,
+      street=street
+    )
+
+    login(request, user)
+    messages.success(request, f"{username}さんの登録が完了しました")
+    return redirect('users:home')
+
+
 
 class UserLoginView(FormView):
   template_name = 'users/user_login.html'
@@ -63,8 +111,18 @@ class UserView(LoginRequiredMixin, TemplateView):
 class EditUserView(LoginRequiredMixin, UpdateView):
   model = User
   template_name = 'users/edit.html'
-  fields = ['username', 'email', 'address']
+  fields = ['username', 'email']
   success_url = reverse_lazy('users:user')
 
   def get_object(self):
     return self.request.user
+  
+class EditAddressView(LoginRequiredMixin, UpdateView):
+  model = Address
+  template_name = 'users/edit.html'
+  fields = ['postal_code', 'country', 'prefecture', 'city', 'street']
+  success_url = reverse_lazy('users:user')
+
+  def get_object(self, queryset=None):
+    address, created = Address.objects.get_or_create(user=self.request.user)
+    return address

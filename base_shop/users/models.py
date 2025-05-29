@@ -32,7 +32,6 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
   username = models.CharField('名前' ,max_length=150)
   email = models.EmailField('メールアドレス' ,max_length=255, unique=True)
-  address = models.CharField('住所' ,max_length=255, blank=True, null=True)
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
   is_superuser = models.BooleanField(default=False)
@@ -44,3 +43,15 @@ class User(AbstractBaseUser, PermissionsMixin):
   
   def get_absolute_url(self):
     return reverse_lazy('users:home')
+
+class Address(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='address')
+  postal_code = models.CharField('郵便番号' , max_length=10, blank=True, null=True)
+  country = models.CharField('国名' , max_length=50, blank=True, null=True)
+  prefecture = models.CharField('都道府県' , max_length=50, blank=True, null=True)
+  city = models.CharField('市区町村' , max_length=100, blank=True, null=True)
+  street = models.CharField('番地以下' , max_length=255, blank=True, null=True)
+
+  def __str__(self):
+    parts = [self.postal_code,self.country, self.prefecture, self.city, self.street]
+    return " ".join(filter(None, parts)) or "住所未設定"

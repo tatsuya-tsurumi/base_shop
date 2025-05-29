@@ -3,15 +3,91 @@
 {% block title %}ユーザー登録{% endblock %}
 
 {% block content %}
-<div class="card mx-auto my-3 user_card">
-  <img src="{% static 'images/regist_logo.png'%}" class="card-img-top" alt="..." height="270px">
-  <h5 class="card-title text-center border py-1">ユーザー登録</h5>
-  <div class="card-body regist-form">
-    <form method="POST" class="text-center w-100">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="button px-5">登録</button>
-    </form>
-  </div>
+
+<div class="py-5 text-center">
+      <h2>新規登録</h2>
+</div>
+
+<div class="container w-50 mx-auto">
+  <form class="needs-validation" novalidate="" method="POST">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-12 w-50">
+        <label for="username" class="form-label">名前</label>
+        <div class="input-group has-validation">
+          <input type="text" class="form-control" name="username" placeholder="TestTaro" required="">
+          <div class="invalid-feedback">
+            名前は必須です
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 w-100">
+        <label for="email" class="form-label">メールアドレス</label>
+        <input type="email" class="form-control" name="email" placeholder="test@example.com">
+        <div class="invalid-feedback">
+          メールアドレスは必須です
+        </div>
+      </div>
+
+      <div class="col-12 w-100">
+        <label for="email" class="form-label">パスワード</label>
+        <input type="password" class="form-control" name="password" placeholder="">
+        <div class="invalid-feedback">
+          パスワードは必須です
+        </div>
+      </div>
+
+      <div class="col-12 w-50">
+        <label for="zip" class="form-label">郵便番号</label>
+        <input type="text" class="form-control" name="postal_code" placeholder="123-4567" required="">
+        <div class="invalid-feedback">
+          郵便番号は必須です
+        </div>
+      </div>
+
+      <div class="col-12 w-50">
+        <label for="country" class="form-label">国名</label>
+        <select class="form-select" name="country" required="">
+          <option value="">選択</option>
+          <option>日本</option>
+        </select>
+        <div class="invalid-feedback">
+          国名は必須です
+        </div>
+      </div>
+
+      <div class="col-12 w-50">
+        <label for="state" class="form-label">都道府県</label>
+        <select class="form-select" name="prefecture" required="">
+          <option value="">選択</option>
+          <option>東京都</option>
+        </select>
+        <div class="invalid-feedback">
+          都道府県は必須です
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-12 w-75 mt-3">
+      <label for="address" class="form-label">市区町村</label>
+      <input type="text" class="form-control" name="city" placeholder="港区" required="">
+      <div class="invalid-feedback">
+        市区町村は必須です
+      </div>
+    </div>
+
+    <div class="col-12 mt-3">
+      <label for="address2" class="form-label">丁目以下</label>
+      <input type="text" class="form-control" name="street" placeholder="麻布十番1-2-3">
+    </div>
+
+    <hr class="my-4">
+    <div class="col12 w-100 text-center mb-4">
+      <button class="btn btn-primary w-25" type="submit">登録</button>
+    </div>
+  </form>
 </div>
 {% endblock %}
