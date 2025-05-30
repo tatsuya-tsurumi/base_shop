@@ -6,6 +6,12 @@ from django.views.decorators.http import require_POST
 from .models import Cart, CartItem, Order, OrderItem
 from products.models import Product
 from users.models import Address
+import pycountry
+
+PREFECTURES = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "岐阜県", "静岡県", "愛知県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "秋田県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"]
+
+def get_country_list():
+  return [country.name for country in pycountry.countries]
 
 # カート表示
 @login_required
@@ -125,6 +131,7 @@ def order_complete_view(request):
 def change_address_view(request):
   address, _ = Address.objects.get_or_create(user=request.user)
   referer = request.META.get('HTTP_REFERER', '/')
+  countries = get_country_list()
   if request.method == 'POST':
     postal_code = request.POST.get('postal_code', "")
     country = request.POST.get('country', "")
@@ -147,6 +154,8 @@ def change_address_view(request):
   return render(request, 'orders/address.html', {
     'address':address,
     'back_url': referer,
+    "countries": countries,
+    "prefectures": PREFECTURES
   })
 
 @login_required

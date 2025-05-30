@@ -11,16 +11,20 @@
     <div class="row g-3">
       <div class="col-12 w-50">
         <label for="zip" class="form-label">郵便番号</label>
-        <input type="text" class="form-control" name="postal_code" placeholder="123-4567" required="" value="{{address.postal_code}}">
+        <input type="text" class="form-control" name="postal_code" placeholder="123-4567" required=""
+          value="{{address.postal_code}}">
         <div class="invalid-feedback">
           郵便番号は必須です
         </div>
       </div>
       <div class="col-12 w-50">
         <label for="country" class="form-label">国名</label>
-        <select class="form-select" name="country" required="" >
+        <select class="form-select" name="country" required="">
           <option value="">選択</option>
-          <option value="日本" {% if address.country == "日本" %}selected {% endif %}>日本</option>
+          {% for country in countries %}
+          <option value="{{country}}" {% if address.country == country %}selected {% endif %}>{{country}}
+          </option>
+          {% endfor %}
         </select>
         <div class="invalid-feedback">
           国名は必須です
@@ -28,9 +32,11 @@
       </div>
       <div class="col-12 w-50">
         <label for="state" class="form-label">都道府県</label>
-        <select class="form-select" name="prefecture" required="" >
+        <select class="form-select" name="prefecture" required="">
           <option value="">選択</option>
-          <option value="東京都" {% if address.prefecture == "東京都" %}selected {% endif %} >東京都</option>
+          {% for prefecture in prefectures %}
+          <option value="{{prefecture}}" {% if address.prefecture == prefecture %}selected {% endif %}>{{prefecture}}</option>
+          {% endfor %}
         </select>
         <div class="invalid-feedback">
           都道府県は必須です

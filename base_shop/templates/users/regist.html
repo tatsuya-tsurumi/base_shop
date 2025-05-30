@@ -45,7 +45,9 @@
         <label for="country" class="form-label">国名</label>
         <select class="form-select" name="country" required="">
           <option value="">選択</option>
-          <option>日本</option>
+          {% for country in countries %}
+          <option value="{{country}}">{{country}}</option>
+          {% endfor %}
         </select>
         <div class="invalid-feedback">
           国名は必須です
@@ -55,7 +57,9 @@
         <label for="state" class="form-label">都道府県</label>
         <select class="form-select" name="prefecture" required="">
           <option value="">選択</option>
-          <option>東京都</option>
+          {% for prefecture in prefectures %}
+          <option value="{{prefecture}}">{{prefecture}}</option>
+          {% endfor %}
         </select>
         <div class="invalid-feedback">
           都道府県は必須です

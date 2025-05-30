@@ -11,15 +11,25 @@ from django import forms
 from orders.models import Order
 from .models import Address
 from .forms import UserLoginForm
+import pycountry
 
 User = get_user_model()
+
+PREFECTURES = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "岐阜県", "静岡県", "愛知県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "秋田県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"]
+
+def get_country_list():
+  return [country.name for country in pycountry.countries]
 
 class HomeView(TemplateView):
   template_name = 'users/home.html'
 
 class RegistUserView(View):
   def get(self, request, *args, **kwargs):
-    return render(request, 'users/regist.html')
+    countries = get_country_list()
+    return render(request, 'users/regist.html', {
+      "countries": countries,
+      "prefectures": PREFECTURES
+    })
   
   def post(self, request, *args, **kwargs):
     # ユーザー情報の取得
@@ -129,12 +139,15 @@ class AddressForm(forms.ModelForm):
 
 class EditUserAndAddressView(LoginRequiredMixin, View):
   def get(self, request):
+    countries = get_country_list()
     user_form = UserForm(instance=request.user)
     address, created = Address.objects.get_or_create(user=request.user)
     address_form = AddressForm(instance=address)
     return render(request, 'users/edit.html', {
       'user_form': user_form,
-      'address_form': address_form
+      'address_form': address_form,
+      "countries": countries,
+      "prefectures": PREFECTURES
     })
 
   def post(self, request):
