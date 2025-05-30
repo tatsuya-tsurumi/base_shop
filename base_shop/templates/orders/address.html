@@ -49,13 +49,11 @@
       <input type="text" class="form-control" name="street" placeholder="麻布十番1-2-3" value="{{address.street}}">
     </div>
     <hr class="my-4">
-    <div class="col12 w-100 text-center mb-4">
-      <button class="btn btn-primary w-25" type="submit">登録</button>
+    <div class="col12 w-50 mx-auto text-center mb-4 d-flex justify-content-between">
+      <a href="{% url 'orders:confirm' %}" class="button btn_back">購入画面へ戻る</a>
+      <button class="button w-25" type="submit">変更</button>
     </div>
   </form>
-  <div class="text-center mt-4">
-    <a href="{% url 'orders:confirm' %}" class="button btn_back">購入画面へ戻る</a>
-  </div>
 </div>
 
 
