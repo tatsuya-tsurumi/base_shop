@@ -56,7 +56,8 @@ def remove_from_cart(request, item_id):
     item.save()
   else:
     item.delete()
-  return redirect('orders:view_cart')
+  referer = request.META.get('HTTP_REFERER', '/')
+  return redirect(referer)
 
 # 購入処理。購入後カート内商品は削除
 @login_required

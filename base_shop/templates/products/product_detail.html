@@ -57,7 +57,7 @@
     <button id="add-to-cart-btn" class="button" data-product-id="{{product.id}}" data-url="{% url 'orders:add_to_cart' product.id %}">カートに追加</button>
     <form method="POST" action="{% url 'orders:buy_now' product.id %}">
       {% csrf_token %}
-      <button type="submit" class="button">購入に進む</button>
+      <button type="submit" class="button">この商品を購入する</button>
     </form>
   </div>
 </div>

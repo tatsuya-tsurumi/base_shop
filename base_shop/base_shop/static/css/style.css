@@ -236,9 +236,9 @@ h1 {
 } */
 
 .detail-fade-in {
-  animation: detailFadeIn 0.5s ease-out;
+  animation: detailFadeIn 1s ease-out;
   position: absolute;
-  bottom: -58%;
+  top: 65%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -247,7 +247,7 @@ h1 {
 @keyframes detailFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px) translateX(-50%);
+    transform: translateY(-10px) translateX(-50%);
   }
   to {
     opacity: 0.8;

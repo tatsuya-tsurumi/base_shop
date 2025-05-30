@@ -18,13 +18,12 @@
   </div>
   {% endfor %}
 
-  <div class="my-5 w-50 mx-auto d-flex align-items-end justify-content-between">
-    <a href="{% url 'orders:view_cart' %}" class="button btn_back">カートに戻る</a>
+  <div class="w-50 mx-auto mt-3">
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
       <p class="m-0">お届け先住所:{{address.prefecture}}{{address.city}}{{address.street}}</p>
       <a href="{% url 'orders:address' %}">配送先住所を変更する</a><br>
-      <div class="d-flex align-items-center gap-3 mt-3">
+      <div class="">
         <label for="pay" class="mb-0 w-auto">お支払い方法:</label>
         <select id="pay" class=" w-auto order_select">
           <option selected>選択してください</option>
@@ -33,34 +32,40 @@
           <option value="convenience">コンビニ支払い</option>
         </select>
       </div>
-      <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
-        {% csrf_token %}
-        <input type="hidden" name="prefecture" value="{{ address.prefecture }}">
-        <input type="hidden" name="city" value="{{ address.city }}">
-        <input type="hidden" name="street" value="{{ address.street }}">
-        <!-- Button trigger modal -->
-        <button type="button" class="button mt-4" data-bs-toggle="modal" data-bs-target="#confirmed_btn">
-          注文を確定する
-        </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="confirmed_btn" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                購入を確定します。よろしいですか?
-              </div>
-              <div class="modal-footer d-flex justify-conntent-end ">
-                <button type="button" class="btn btn-secondary me-4" data-bs-dismiss="modal">キャンセル</button>
-                <button type="button" class="button btn-primary ms-4 px-4" onclick="document.getElementById('purchaseForm').submit();">購入する</button>
-              </div>
-            </div>
-          </div>
+    </div>
+  </div>
+  <div class="w-50 d-flex justify-content-between mx-auto my-5">
+    <a href="{% url 'orders:view_cart' %}" class="button btn_back">カートに戻る</a>
+    <a href="{% url 'products:product_list' %}" class="button mb-0  btn_back">商品一覧へ戻る</a>
+    <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
+      {% csrf_token %}
+      <input type="hidden" name="prefecture" value="{{ address.prefecture }}">
+      <input type="hidden" name="city" value="{{ address.city }}">
+      <input type="hidden" name="street" value="{{ address.street }}">
+      <!-- Button trigger modal -->
+      <button type="button" class="button " data-bs-toggle="modal" data-bs-target="#confirmed_btn">
+        注文を確定する
+      </button>
+    </form>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmed_btn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </form>
+        <div class="modal-body">
+          購入を確定します。よろしいですか?
+        </div>
+        <div class="modal-footer d-flex justify-conntent-end ">
+          <button type="button" class="btn btn-secondary me-4" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="button btn-primary ms-4 px-4"
+            onclick="document.getElementById('purchaseForm').submit();">購入する</button>
+        </div>
+      </div>
     </div>
   </div>
 
