@@ -238,7 +238,7 @@ h1 {
 .detail-fade-in {
   animation: detailFadeIn 1s ease-out;
   position: absolute;
-  top: 65%;
+  top: 70%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;

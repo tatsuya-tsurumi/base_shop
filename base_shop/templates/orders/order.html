@@ -21,9 +21,11 @@
   <div class="w-50 mx-auto mt-3">
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
-      <p class="m-0">お届け先住所:{{address.prefecture}}{{address.city}}{{address.street}}</p>
-      <a href="{% url 'orders:address' %}">配送先住所を変更する</a><br>
-      <div class="">
+      <div class="mt-3">
+        <p class="m-0">お届け先住所:{{address.prefecture}}{{address.city}}{{address.street}}</p>
+        <a href="{% url 'orders:address' %}">配送先住所を変更する</a><br>
+      </div>
+      <div class="mt-3">
         <label for="pay" class="mb-0 w-auto">お支払い方法:</label>
         <select id="pay" class=" w-auto order_select">
           <option selected>選択してください</option>

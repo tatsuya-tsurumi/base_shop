@@ -28,7 +28,7 @@
 
   {% else %}
   <p class="text-center">商品はありません</p>
-  <a href="{{back_url}}" class="button cart_btn btn_back">戻る</a>
+  <a href="{% url 'products:product_list' %}" class="button cart_btn btn_back">商品一覧へ戻る</a>
   {% endif %}
 </div>
 {% endblock %}
