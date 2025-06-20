@@ -130,3 +130,5 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+ALLOWED_HOSTS = ['tsurumitatsuya.pythonanywhere.com']
