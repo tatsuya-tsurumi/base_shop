@@ -20,9 +20,6 @@ PREFECTURES = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", 
 def get_country_list():
   return [country.name for country in pycountry.countries]
 
-class HomeView(TemplateView):
-  template_name = 'users/home.html'
-
 class RegistUserView(View):
   def get(self, request, *args, **kwargs):
     countries = get_country_list()

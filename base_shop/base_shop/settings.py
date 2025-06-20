@@ -131,4 +131,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-ALLOWED_HOSTS = ['tsurumitatsuya.pythonanywhere.com']
+ALLOWED_HOSTS = ['tsurumitatsuya.pythonanywhere.com', '127.0.0.1', '192.168.2.199', '::1','localhost']
