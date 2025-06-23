@@ -71,14 +71,14 @@ class RegistUserView(View):
 
     login(request, user)
     messages.success(request, f"{username}さんの登録が完了しました")
-    return redirect('users:home')
+    return redirect('home')
 
 
 
 class UserLoginView(FormView):
   template_name = 'users/user_login.html'
   form_class = UserLoginForm
-  success_url = reverse_lazy('users:home')
+  success_url = reverse_lazy('home')
 
   def form_valid(self, form):
     email = form.cleaned_data['email']
@@ -98,7 +98,7 @@ class UserLogoutView(View):
     return render(request, 'users/user_logout.html')
   def post(self, request, *args, **kwargs):
     logout(request)
-    return redirect('users:home')
+    return redirect('home')
   
 
 class UserView(LoginRequiredMixin, TemplateView):

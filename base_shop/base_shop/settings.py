@@ -132,3 +132,5 @@ MESSAGE_TAGS = {
 }
 
 ALLOWED_HOSTS = ['tsurumitatsuya.pythonanywhere.com', '127.0.0.1', '192.168.2.199', '::1','localhost']
+
+LOGIN_URL = '/users/login/'
