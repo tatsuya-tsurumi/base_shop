@@ -86,7 +86,10 @@ def order_confirm_view(request):
   if 'temporary_address' in request.session:
     ship_address = request.session['temporary_address']
   else:
-    address = get_object_or_404(Address, user=request.user)
+    address = Address.objects.filter(user=request.user).first()
+    if not address or not (address.postal_code and address.prefecture and address.city and address.street):
+      messages.error(request, "住所が登録されていません。住所登録をしてください")
+      return redirect('users:edit')
     ship_address = {
       'postal_code': address.postal_code,
       'country': address.country,
