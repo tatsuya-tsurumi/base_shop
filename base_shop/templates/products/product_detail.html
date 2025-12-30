@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}{{product.name}}詳細{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">{{ product.name }}の詳細</h2>
+
+  <!-- 商品画像 -->
+  <div class="text-center mb-4">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid product_detail_img">
+  </div>
+
+  <!-- 商品詳細テーブル -->
+  <div class="mb-4">
+    <table class="w-50 mx-auto product_detail_table">
+      <tbody>
+        <tr>
+          <th scope="row">商品名</th>
+          <td>{{ product.name }}</td>
+        </tr>
+        <tr>
+        <tr>
+          <th>メーカー</th>
+          <td>{{ product.manufacturer}}</td>
+        </tr>
+        <tr>
+          <th>種別</th>
+          <td>{{ product.category}}</td>
+        </tr>
+        <tr>
+          <th>カラー</th>
+          <td>{{ product.color}}</td>
+        </tr>
+        <tr>
+          <th>ポジション</th>
+          <td>{{ product.position}}</td>
+        </tr>
+        <th scope="row">価格</th>
+        <td>￥{{ product.price }}</td>
+        </tr>
+        <tr>
+          <th scope="row">説明</th>
+          <td>{{ product.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- カート追加ボタン -->
+  <div class="text-center w-50 d-flex justify-content-around mx-auto mb-5 detail-btn-wrapper">
+    <a href="{% url 'products:product_list' %}" class="button btn_back">商品一覧に戻る</a>
+    <form method="POST" action="{% url 'orders:add_to_cart' product.id %}">
+      {% csrf_token %}
+      <button type="submit" class="button">カートに追加</button>
+    </form>
+    <form method="POST" action="{% url 'orders:buy_now' product.id %}">
+      {% csrf_token %}
+      <button type="submit" class="button">この商品を購入する</button>
+    </form>
+  </div>
+</div>
+
+    <!-- <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+    <div id="alert-box" class="alert alert-info alert-dismissible fade show mt-4 w-25 detail-fade-in d-none" role="alert">
+      <span id="alert-message">商品を追加しました</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <button id="add-to-cart-btn" class="button" data-product-id="{{product.id}}" data-url="{% url 'orders:add_to_cart' product.id %}">カートに追加</button> -->
+
+{% endblock %}

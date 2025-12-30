@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}{{product.name}}注文確定{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <h2 class="text-center">注文確定</h2>
+
+  {% for item in cart_items %}
+  <div class="list-group-item d-flex align-items-center justify-content-between w-50 mx-auto mt-4">
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3 thumb_img_size">
+    <div class="d-flex flex-column align-items-end">
+      <h5 class="mb-2">{{ item.product.name }}</h5>
+      <p class="mb-2">￥{{ item.product.price }} × {{ item.quantity }}</p>
+      <p><strong>小計: ￥{{item.subtotal}}</strong></p>
+      <a href="{% url 'orders:remove_from_cart' item.id %}" class="mb-2 button">削除</a>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="w-50 mx-auto mt-3">
+    <div class="text-end ">
+      <h4>合計金額: ¥{{total_price}}</h4>
+      <div class="mt-3">
+        <label for="select_address" >お届け先住所</label>
+      <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
+      {% csrf_token %}
+        <select name="address_id" id="select_address">
+          {% for address in address_list %}
+          <option value="{{address.id}}">
+            {{address.prefecture}}{{address.city}}{{address.street}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mt-3">
+        <a href="{% url 'orders:address' %}">お届け先住所を追加</a>
+      </div>
+      <div class="mt-3">
+        <label for="pay" class="mb-0 w-auto">お支払い方法:</label>
+        <select id="pay" class=" w-auto order_select">
+          <option selected>選択してください</option>
+          <option value="cash">現金</option>
+          <option value="credit">クレジットカード</option>
+          <option value="convenience">コンビニ支払い</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+  <div class="w-50 d-flex justify-content-between mx-auto my-5">
+    <a href="{% url 'orders:view_cart' %}" class="button btn_back">カートに戻る</a>
+    <a href="{% url 'products:product_list' %}" class="button mb-0  btn_back">商品一覧へ戻る</a>
+
+      <!-- Button trigger modal -->
+      <button type="button" class="button " data-bs-toggle="modal" data-bs-target="#confirmed_btn">
+        注文を確定する
+      </button>
+    </form>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmed_btn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          購入を確定します。よろしいですか?
+        </div>
+        <div class="modal-footer d-flex justify-conntent-end ">
+          <button type="button" class="btn btn-secondary me-4" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="button btn-primary ms-4 px-4"
+            onclick="document.getElementById('purchaseForm').submit();">購入する</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-3">
+
+  </div>
+
+
+
+</div>
+{% endblock %}

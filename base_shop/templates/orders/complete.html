@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}購入完了{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center">ご注文ありがとうございました。</h2>
+  <p class="text-center mt-3">注文が正常に完了しました。</p>
+  <div class="text-center mt-4">
+    <a href="{% url 'products:product_list' %}" class="button ">商品一覧に戻る</a>
+  </div>
+</div>
+{% endblock %}

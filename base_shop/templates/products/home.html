@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+<h2>管理者ログイン</h2>
+<form method="post" action="{% url 'products:admin_login' %}">
+  {% csrf_token %}
+
+
+  <button type="submit">ログイン</button>
+</form>
+
+{% if error %}
+  <p style="color: red;">{{ error }}</p>
+{% endif %}
+
+
+{% load static %}
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+<div class="container my-5 w-50 mx-auto text-center">
+  <form method="POST" action="{% url 'products:admin_login' %}">
+    <h2 class="h3 mb-3 fw-normal">管理者ログイン</h2>
+    {% csrf_token %}
+    <div class="form-group w-50 mx-auto mt-5 text-start">
+      <label for="id_email" class="form-label">メールアドレス</label>
+      <input type="email" name="email" class="form-control" id="id_email" placeholder="name@example.com">
+    </div>
+    <div class="form-group w-50 mx-auto mt-5 text-start">
+      <label for="id_password" class="form-label">パスワード</label>
+      <input type="password" name="password" class="form-control" id="id_password" placeholder="password">
+    </div>
+    <div class="mt-5 w-50 mx-auto d-flex justify-content-between">
+      <a href="{% url 'home' %}" class="btn btn-secondary ms-5 mt-3">キャンセル</a>
+      <button class="button me-5 mt-3" type="submit">ログイン</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
