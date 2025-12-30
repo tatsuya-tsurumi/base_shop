@@ -8,7 +8,7 @@
 小規模ECを想定しています。
 
 ## デモ
-https://blooming-island-48446-7dae472217b3.herokuapp.com/
+https://tsurumitatsuya.pythonanywhere.com/
 
 ## スクリーンショット
 
