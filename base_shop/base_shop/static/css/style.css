@@ -21,7 +21,7 @@ main {
 }
 
 footer{
-    height: 70px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,6 +35,15 @@ h1 {
   margin-top: 8px;
 }
 
+ul {
+  padding: 0;
+}
+
+.user_address_list {
+  list-style: none;
+  letter-spacing: .3rem;
+}
+
 .base-fade-in {
   animation: baseFadeIn 1s ease-out;
   position: absolute;
@@ -43,8 +52,6 @@ h1 {
   transform: translateX(-50%);
   z-index: 10;
 }
-
-
 
 @keyframes baseFadeIn {
   from {
@@ -56,6 +63,8 @@ h1 {
     transform: translateY(0) translateX(-50%);
   }
 }
+
+
 
 /* bootstrap */
 .user_card {
@@ -127,16 +136,21 @@ h1 {
   margin-left: 16px;
 }
 
-.administrator_item {
-  border: 1px solid #ccc;
+.administrator_box {
   padding: 4px 8px;
-  border-radius: 4px;
   transition-duration: 1s;
 }
-.administrator_item:hover {
+.administrator_box:hover {
   background: #91bbee;
   border: 1px solid #91bbee;
   transition-duration: 1s;
+}
+
+.admin_btn {
+  display: block;
+  border: none;
+  padding: 8px;
+  color: #6c7787;
 }
 
 /* home.html */

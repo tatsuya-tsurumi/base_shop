@@ -47,11 +47,13 @@ def add_to_cart(request, product_id):
   item, created = CartItem.objects.get_or_create(cart=cart, product=product)
   item.quantity += 1
   item.save()
+  
+  messages.success(request, f'商品をカートに追加しました。')
 
   if request.headers.get('x-requested-with') == 'XMLHttpRequest':
     return JsonResponse({'name': product.name, 'quantity': item.quantity})
 
-  return redirect('orders:view_cart')
+  return redirect('products:product_detail', slug=product.slug)
 
 # カートから商品削除
 @login_required
@@ -65,7 +67,7 @@ def remove_from_cart(request, item_id):
   referer = request.META.get('HTTP_REFERER', '/')
   return redirect(referer)
 
-# 購入処理。購入後カート内商品は削除
+# オーダー処理。購入後カート内商品は削除
 @login_required
 def order_confirm_view(request):
   cart = Cart.objects.filter(user=request.user).first()
@@ -83,25 +85,14 @@ def order_confirm_view(request):
       'subtotal':subtotal
     })
 
-  if 'temporary_address' in request.session:
-    ship_address = request.session['temporary_address']
-  else:
-    address = Address.objects.filter(user=request.user).first()
-    if not address or not (address.postal_code and address.prefecture and address.city and address.street):
-      messages.error(request, "住所が登録されていません。住所登録をしてください")
-      return redirect('users:edit')
-    ship_address = {
-      'postal_code': address.postal_code,
-      'country': address.country,
-      'prefecture': address.prefecture,
-      'city': address.city,
-      'street': address.street
-    }
   if request.method == 'POST':
-    prefecture = request.POST.get('prefecture', "")
-    city = request.POST.get('city', "")
-    street = request.POST.get('street', "")
-    address_str = f"{prefecture}{city}{street}"
+    address_id = request.POST.get('address_id')
+    try:
+      selected_address = Address.objects.get(id=address_id, user=request.user)
+    except Address.DoesNotExist:
+      messages.error(request, '選択された住所が存在しません')
+      return redirect('orders:confirm')
+    address_str = f"{selected_address.prefecture}{selected_address.city}{selected_address.street}"
     order = Order.objects.create(
       user=request.user,
       address=address_str,
@@ -119,10 +110,11 @@ def order_confirm_view(request):
       del request.session['temporary_address']
     return redirect('orders:order_complete')
   
+  address_list = Address.objects.filter(user=request.user)
   return render(request, 'orders/order.html', {
     'cart_items':items_with_subtotals,
     'total_price':total_price,
-    'address':ship_address,
+    'address_list': address_list,
     'back_url': referer
   })
   
@@ -130,9 +122,9 @@ def order_confirm_view(request):
 def order_complete_view(request):
   return render(request, 'orders/complete.html')
 
+# 住所変更
 @login_required
 def change_address_view(request):
-  address, _ = Address.objects.get_or_create(user=request.user)
   referer = request.META.get('HTTP_REFERER', '/')
   countries = get_country_list()
   if request.method == 'POST':
@@ -143,19 +135,21 @@ def change_address_view(request):
     street = request.POST.get('street', "")
 
     if postal_code and country and prefecture and city and street:
-      request.session['temporary_address'] = {
-        'postal_code': postal_code,
-        'country': country,
-        'prefecture': prefecture,
-        'city': city,
-        'street': street,
-      }
+      # DBへアドレス情報登録処理
+      Address.objects.create(
+        user = request.user,
+        postal_code = postal_code,
+        country = country,
+        prefecture = prefecture,
+        city = city,
+        street = street
+      )
+      
       messages.success(request, 'お届け先住所を変更しました')
       return redirect('orders:confirm')
     else:
       messages.error(request, '全ての項目を入力してください')
   return render(request, 'orders/address.html', {
-    'address':address,
     'back_url': referer,
     "countries": countries,
     "prefectures": PREFECTURES

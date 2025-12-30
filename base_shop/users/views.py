@@ -8,17 +8,15 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views import View
 from django import forms
+from django.forms import modelformset_factory
+from users.forms import AddressForm
+from users.models import Address
 from orders.models import Order
 from .models import Address
 from .forms import UserLoginForm
-import pycountry
+from .utils import get_country_list, PREFECTURES
 
 User = get_user_model()
-
-PREFECTURES = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "岐阜県", "静岡県", "愛知県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "秋田県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"]
-
-def get_country_list():
-  return [country.name for country in pycountry.countries]
 
 class RegistUserView(View):
   def get(self, request, *args, **kwargs):
@@ -116,12 +114,12 @@ class UserView(LoginRequiredMixin, TemplateView):
     context['orders'] = orders
 
     try:
-      address = Address.objects.get(user=self.request.user)
-      address_str = f"{address.prefecture}{address.city}{address.street}"
+      addresses = Address.objects.filter(user=self.request.user).order_by('created_at')
+      address_strs = [f"{a.prefecture}{a.city}{a.street}" for a in addresses]
     except Address.DoesNotExist:
-      address_str = "住所未登録"
+      address_strs = "住所未登録"
 
-    context['address_str'] = address_str
+    context['address_strs'] = address_strs
     return context
   
 class UserForm(forms.ModelForm):
@@ -136,29 +134,50 @@ class AddressForm(forms.ModelForm):
 
 class EditUserAndAddressView(LoginRequiredMixin, View):
   def get(self, request):
+    form = AddressForm(instance=request.user)
     countries = get_country_list()
+    selected_country = form.data.get('country') if request.method == 'POST' else form.initial.get('country')
     user_form = UserForm(instance=request.user)
-    address, created = Address.objects.get_or_create(user=request.user)
-    address_form = AddressForm(instance=address)
+    # 住所用
+    AddressFormSet = modelformset_factory(Address, form=AddressForm, extra=0, can_delete=True)
+    queryset = Address.objects.filter(user=request.user)
+    address_formset = AddressFormSet(queryset=queryset)
     return render(request, 'users/edit.html', {
       'user_form': user_form,
-      'address_form': address_form,
+      'address_formset': address_formset,
       "countries": countries,
+      'selected_country': selected_country,
       "prefectures": PREFECTURES
     })
 
   def post(self, request):
     user_form = UserForm(request.POST, instance=request.user)
-    address, _ = Address.objects.get_or_create(user=request.user)
-    address_form = AddressForm(request.POST, instance=address)
+    AddressFormSet = modelformset_factory(Address, form=AddressForm, extra=0, can_delete=True)
+    queryset = Address.objects.filter(user=request.user)
+    address_formset = AddressFormSet(request.POST, queryset=queryset)
 
-    if user_form.is_valid() and address_form.is_valid():
+    if user_form.is_valid() and address_formset.is_valid():
       user_form.save()
-      address_form.save()
+      #formsetの処理
+      instances = address_formset.save(commit=False)
+      
+      # 削除フラグのついた住所、削除処理
+      for form in address_formset.deleted_forms:
+        if form.instance.pk:
+          form.instance.delete()
+          
+      # 保存対象の住所を保存し、ユーザーと紐付け
+      for instance in instances:
+        instance.user = request.user
+        instance.save()
+      
       messages.success(request, 'ユーザー情報を更新しました')
       return redirect('users:user')
     
+    counties = get_country_list()
     return render(request, 'users/edit.html', {
       'user_form': user_form,
-      'address_form': address_form
+      'address_formset': address_formset,
+      "countries": counties,
+      "prefectures": PREFECTURES
     })

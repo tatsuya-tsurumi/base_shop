@@ -22,8 +22,19 @@
     <div class="text-end ">
       <h4>合計金額: ¥{{total_price}}</h4>
       <div class="mt-3">
-        <p class="m-0">お届け先住所:{{address.prefecture}}{{address.city}}{{address.street}}</p>
-        <a href="{% url 'orders:address' %}">配送先住所を変更する</a><br>
+        <label for="select_address" >お届け先住所</label>
+      <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
+      {% csrf_token %}
+        <select name="address_id" id="select_address">
+          {% for address in address_list %}
+          <option value="{{address.id}}">
+            {{address.prefecture}}{{address.city}}{{address.street}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mt-3">
+        <a href="{% url 'orders:address' %}">お届け先住所を追加</a>
       </div>
       <div class="mt-3">
         <label for="pay" class="mb-0 w-auto">お支払い方法:</label>
@@ -40,11 +51,7 @@
   <div class="w-50 d-flex justify-content-between mx-auto my-5">
     <a href="{% url 'orders:view_cart' %}" class="button btn_back">カートに戻る</a>
     <a href="{% url 'products:product_list' %}" class="button mb-0  btn_back">商品一覧へ戻る</a>
-    <form method="post" id="purchaseForm" action="{% url 'orders:confirm' %}">
-      {% csrf_token %}
-      <input type="hidden" name="prefecture" value="{{ address.prefecture }}">
-      <input type="hidden" name="city" value="{{ address.city }}">
-      <input type="hidden" name="street" value="{{ address.street }}">
+
       <!-- Button trigger modal -->
       <button type="button" class="button " data-bs-toggle="modal" data-bs-target="#confirmed_btn">
         注文を確定する

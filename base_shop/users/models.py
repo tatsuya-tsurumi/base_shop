@@ -45,12 +45,28 @@ class User(AbstractBaseUser, PermissionsMixin):
     return reverse_lazy('users:home')
 
 class Address(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='address')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
   postal_code = models.CharField('郵便番号' , max_length=10, blank=True, null=True)
   country = models.CharField('国名' , max_length=50, blank=True, null=True)
   prefecture = models.CharField('都道府県' , max_length=50, blank=True, null=True)
   city = models.CharField('市区町村' , max_length=100, blank=True, null=True)
   street = models.CharField('番地以下' , max_length=255, blank=True, null=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  
+  class Meta:
+      constraints = [
+          models.UniqueConstraint(
+              fields=[
+                  'user',
+                  'postal_code',
+                  'country',
+                  'prefecture',
+                  'city',
+                  'street',
+              ],
+              name='unique_user_address'
+          )
+      ]
 
   def __str__(self):
     parts = [self.postal_code,self.country, self.prefecture, self.city, self.street]

@@ -17,10 +17,16 @@
         <th class="py-3 ps-2">メールアドレス</th>
         <td class="py-3 ps-2">{{ user.email }}</td>
       </tr>
+      {% for address in address_strs %}
       <tr>
-        <th class="py-3 ps-2">住所</th>
-        <td class="py-3 ps-2">{{ address_str }}</td>
+        <th class="py-3 ps-2">住所{{ forloop.counter }}</th>
+        <td class="">
+          <ul>
+            <li class="user_address_list">{{ address }}</li>
+          </ul>
+        </td>
       </tr>
+      {% endfor %}
       <tr>
         <th class="py-3 ps-2">パスワード</th>
         <td class="py-3 ps-2 user_table_pass">⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎⚫︎</td>

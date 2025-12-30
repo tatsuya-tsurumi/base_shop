@@ -13,7 +13,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'django-insecure-!wb))n1rr*5(z-_=e-htr)i4%h-%-x2nmj96do+^g_bcz94c7l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'users',
     'products',
     'orders',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -133,4 +134,4 @@ MESSAGE_TAGS = {
 
 ALLOWED_HOSTS = ['tsurumitatsuya.pythonanywhere.com', '127.0.0.1', '192.168.2.199', '::1','localhost']
 
-LOGIN_URL = '/users/login/'
+LOGIN_URL = 'users:user_login'
