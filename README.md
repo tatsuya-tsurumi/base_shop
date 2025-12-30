@@ -29,7 +29,7 @@
 - 注文完了
 
 ## 6. ER図
-
+![ER図](docs/erd.png)
 
 ## 7. 技術選定理由
 - Django  
