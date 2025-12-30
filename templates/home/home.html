@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ホーム {% endblock %}
+
+{% block content %}
+<div class="home-wrapper text-center">
+  <h2 class="home_catch home-fade delay-1 fs-1 ">プロ愛用の品をあなたの手に</h2>
+  <p class="fs-4 home-fade delay-2 home_msg">使用する道具によってパフォーマンスは劇的に変わる</p>
+  <p class="fs-4 home-fade delay-3 home_msg">あなたも今日から違いを実感しよう!</p>
+</div>
+<div id="carouselFade" class="carousel slide carousel-fade mt-4 dokuji" data-bs-ride="carousel" data-bs-interval="5000">
+  <div class="carousel-inner">
+    <div class="carousel-item active ">
+      <img src="{% static 'images/home_img.jpg' %}" class="d-block w-75 mx-auto home_img" alt="home画像">
+      <div class="w-75 mx-auto overlay"></div>
+    </div>
+    <div class="carousel-item ">
+      <img src="{% static 'images/home_img2.jpg' %}" class="d-block w-75 mx-auto home_img" alt="home画像">
+      <div class="w-75 mx-auto overlay"></div>
+    </div>
+    <div class="carousel-item ">
+      <img src="{% static 'images/home_img3.jpg' %}" class="d-block w-75 mx-auto home_img" alt="home画像">
+      <div class="w-75 mx-auto overlay"></div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselFade" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselFade" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="home_products_link text-center my-4 w-25 mx-auto">
+  <a class="button mb-3 home_btn" href="{% url 'products:product_list' %}">商品一覧へ</a>
+</div>
+
+
+{% endblock %}

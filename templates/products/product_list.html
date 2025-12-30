@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}商品一覧{% endblock %}
+
+{% block content %}
+<h2 class="text-center mt-5">商品一覧</h2>
+{% if products %}
+<div class="container mt-5">
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" height="420">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description|truncatechars:50 }}</p>
+          <p class="card-text text-muted">￥{{ product.price }}</p>
+          <a href="{% url 'products:product_detail' product.slug %}" class="button">詳細を見る</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<p>商品はありません</p>
+{% endif %}
+{% endblock %}
